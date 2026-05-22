@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import axios, { isAxiosError } from "axios";
+import api from "../api";
+import { isAxiosError } from "axios";
 
 export const useAuth = create((set) => ({
   currentUser: null,
@@ -14,11 +15,7 @@ export const useAuth = create((set) => ({
 
       set({ loading: true, error: null });
 
-      let res = await axios.post(
-        "https://blogapp-back-y39f.onrender.com/common-api/login",
-        userCredObj,
-        { withCredentials: true }
-      );
+      let res = await api.post("/common-api/login", userCredObj);
 
       set({
         loading: false,
@@ -54,10 +51,7 @@ export const useAuth = create((set) => ({
   // LOGOUT
   logout: async () => {
 
-    await axios.get(
-      "https://blogapp-back-y39f.onrender.com/common-api/logout",
-      { withCredentials: true }
-    );
+    await api.get("/common-api/logout");
 
     set({
       currentUser: null,
@@ -73,7 +67,7 @@ export const useAuth = create((set) => ({
   checkAuth: async () => {
     try {
       set({ loading: true });
-      const res = await axios.get("https://blogapp-back-y39f.onrender.com/common-api/check-auth", { withCredentials: true });
+      const res = await api.get("/common-api/check-auth");
 
       set({
         currentUser: res.data.payload,

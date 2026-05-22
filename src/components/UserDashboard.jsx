@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/authStore";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -12,10 +12,7 @@ function UserDashboard() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await axios.get(
-            `https://blogapp-back-y39f.onrender.com/user-api/articles/${currentUser._id}`, // passing ID even if ignored by updated backend
-            { withCredentials: true }
-        );
+        const res = await api.get(`/user-api/articles/${currentUser._id}`); // passing ID even if ignored by updated backend
         if (res.status === 200) {
             setArticles(res.data.payload);
         }

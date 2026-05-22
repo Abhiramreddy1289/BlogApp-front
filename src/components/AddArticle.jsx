@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../store/authStore";
-import axios from "axios";
+import api from "../api";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
@@ -43,11 +43,7 @@ function AddArticle() {
             articleId: state._id
         }
 
-        const res = await axios.put(
-          "https://blogapp-back-y39f.onrender.com/author-api/articles",
-          updatePayload,
-          { withCredentials: true }
-        );
+        const res = await api.put(`/author-api/articles`, updatePayload);
 
         if (res.status === 200) {
             toast.success("Article updated successfully");
@@ -56,11 +52,7 @@ function AddArticle() {
 
       } else {
         // CREATE
-        const res = await axios.post(
-          "https://blogapp-back-y39f.onrender.com/author-api/articles",
-          payload,
-          { withCredentials: true }
-        );
+        const res = await api.post(`/author-api/articles`, payload);
         if (res.status === 201) {
             toast.success("Article created successfully");
             navigate("/author-dashboard");

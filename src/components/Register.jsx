@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 
@@ -26,11 +26,11 @@ function Register() {
 
   const onSubmit = async (newUser) => {
     try {
-      let endpoint = "https://blogapp-back-y39f.onrender.com/user-api/users";
+      let endpoint = "/user-api/users";
       if (newUser.role === "AUTHOR") {
-        endpoint = "https://blogapp-back-y39f.onrender.com/author-api/users";
+        endpoint = "/author-api/users";
       } else if (newUser.role === "ADMIN") {
-        endpoint = "https://blogapp-back-y39f.onrender.com/admin-api/register";
+        endpoint = "/admin-api/register";
       }
 
       // Create form data object
@@ -44,7 +44,7 @@ function Register() {
       // add profilePic to Formdata object
       formData.append("profilePic", profilePic[0]);
 
-      const res = await axios.post(endpoint, formData, {
+      const res = await api.post(endpoint, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -13,8 +13,8 @@ function AdminDashboard() {
     const fetchData = async () => {
       try {
         const [artRes, userRes] = await Promise.all([
-          axios.get("https://blogapp-back-y39f.onrender.com/admin-api/articles", { withCredentials: true }),
-          axios.get("https://blogapp-back-y39f.onrender.com/admin-api/users", { withCredentials: true })
+          api.get("/admin-api/articles"),
+          api.get("/admin-api/users")
         ]);
         setArticles(artRes.data.payload);
         setUsers(userRes.data.payload);
@@ -28,11 +28,7 @@ function AdminDashboard() {
   const toggleUserStatus = async (userId, currentStatus) => {
     try {
       const endpoint = currentStatus ? "block" : "unblock";
-      const res = await axios.patch(
-        `https://blogapp-back-y39f.onrender.com/admin-api/${endpoint}/${userId}`,
-        {},
-        { withCredentials: true }
-      );
+      const res = await api.patch(`/admin-api/${endpoint}/${userId}`, {});
       if (res.status === 200) {
         toast.success(res.data.message);
         setUsers(users.map(u => u._id === userId ? { ...u, isActive: !currentStatus } : u));
@@ -45,11 +41,7 @@ function AdminDashboard() {
 
   const toggleArticleStatus = async (articleId, currentStatus) => {
     try {
-      const res = await axios.patch(
-        `https://blogapp-back-y39f.onrender.com/author-api/articles/${articleId}/status`,
-        { isArticleActive: !currentStatus },
-        { withCredentials: true }
-      );
+      const res = await api.patch(`/author-api/articles/${articleId}/status`, { isArticleActive: !currentStatus });
       if (res.status === 200) {
         toast.success(res.data.message);
         setArticles(articles.map(art => art._id === articleId ? { ...art, isArticleActive: !currentStatus } : art));

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import { useAuth } from "../store/authStore";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -13,9 +13,7 @@ function ArticleDetails() {
 
   const fetchArticle = async () => {
     try {
-      const res = await axios.get(
-        `https://blogapp-back-y39f.onrender.com/common-api/articles/${articleId}`
-      );
+      const res = await api.get(`/common-api/articles/${articleId}`);
       setArticle(res.data.payload);
     } catch (err) {
       toast.error("Failed to load article");
@@ -28,14 +26,14 @@ function ArticleDetails() {
 
   const onCommentSubmit = async (data) => {
     try {
-      const res = await axios.put(
-        "https://blogapp-back-y39f.onrender.com/user-api/articles/",
+      const res = await api.put(
+        "/user-api/articles/",
         {
           articleId: article._id,
           user: currentUser._id,
           comment: data.comment,
         },
-        { withCredentials: true }
+        // withCredentials is enabled by default on the api instance
       );
       if (res.status === 200) {
         toast.success("Comment added");

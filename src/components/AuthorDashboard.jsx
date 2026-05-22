@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/authStore";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -9,42 +9,21 @@ function AuthorDashboard() {
   const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
 
-  const getArticles = async () => {
-    try {
-      const res = await axios.get(
-        `https://blogapp-back-y39f.onrender.com/author-api/articles/${currentUser.email}`, // Wait, API uses authorId or email?
-        { withCredentials: true }
-      );
-      // checking authorAPI.js:
-      // authorRoute.get("/articles/:authorId", ... let aid = req.params.authorId; ... find({ author: aid ... })
-      // So it expects the AUTHOR ID (ObjectId), not email.
-      // But let's check what I wrote in the code above.
-      // The API uses `req.params.authorId`.
-      // The schema `author` field is ObjectId.
-      // So I should pass `currentUser._id`.
-      
-    } catch (err) {
-      console.log(err)
-    }
-  };
-
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await axios.get(
-          `https://blogapp-back-y39f.onrender.com/author-api/articles/${currentUser._id}`, // Corrected to use ID
-          { withCredentials: true }
-        );
+        const res = await api.get(`/author-api/articles/${currentUser._id}`);
         if (res.status === 200) {
-            setArticles(res.data.payload);
+          setArticles(res.data.payload);
         }
       } catch (err) {
         console.error(err);
         toast.error("Failed to load articles");
       }
     };
+
     if (currentUser) {
-        fetchArticles();
+      fetchArticles();
     }
   }, [currentUser]);
 
@@ -57,26 +36,16 @@ function AuthorDashboard() {
   };
 
   const handleDelete = async (article) => {
-    // Toggle logic
-    // But UI usually shows "Delete" if active, "Restore" if inactive.
-    // The API `PATCH /author-api/articles/:id/status` takes `isArticleActive`.
-    // If currently true, we send false.
     const newStatus = !article.isArticleActive;
-    
     try {
-        const res = await axios.patch(
-          `https://blogapp-back-y39f.onrender.com/author-api/articles/${article._id}/status`,
-            { isArticleActive: newStatus },
-            { withCredentials: true }
-        );
-        if(res.status === 200){
-            toast.success(res.data.message);
-            // update local state
-            setArticles(articles.map(art => art._id === article._id ? {...art, isArticleActive: newStatus} : art));
-        }
+      const res = await api.patch(`/author-api/articles/${article._id}/status`, { isArticleActive: newStatus });
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        setArticles(articles.map(art => art._id === article._id ? { ...art, isArticleActive: newStatus } : art));
+      }
     } catch (err) {
-        console.error(err);
-        toast.error("Failed to update status");
+      console.error(err);
+      toast.error("Failed to update status");
     }
   };
 

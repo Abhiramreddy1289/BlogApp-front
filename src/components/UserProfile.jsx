@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
+import api from "../api"
 import toast from "react-hot-toast"
 import { Link } from "react-router-dom"
 import { useAuth } from "../store/authStore"
@@ -31,10 +31,7 @@ function UserProfile(){
 
    try{
 
-    const res = await axios.get(
-     `https://blogapp-back-y39f.onrender.com/user-api/articles/${currentUser._id}`,
-     {withCredentials:true}
-    )
+    const res = await api.get(`/user-api/articles/${currentUser._id}`)
 
     setArticles(res.data.payload)
 

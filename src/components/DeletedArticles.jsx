@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/authStore";
-import axios from "axios";
+import api from "../api";
 import toast from "react-hot-toast";
 
 function DeletedArticles() {
@@ -10,10 +10,7 @@ function DeletedArticles() {
   useEffect(() => {
     const fetchDeleted = async () => {
       try {
-        const res = await axios.get(
-          `https://blogapp-back-y39f.onrender.com/author-api/articles/${currentUser._id}`,
-          { withCredentials: true }
-        );
+        const res = await api.get(`/author-api/articles/${currentUser._id}`);
         // Filter for only inactive ones
         setArticles(res.data.payload.filter(a => !a.isArticleActive));
       } catch (err) {
@@ -25,11 +22,7 @@ function DeletedArticles() {
 
   const handleRestore = async (id) => {
     try {
-      const res = await axios.patch(
-        `https://blogapp-back-y39f.onrender.com/author-api/articles/${id}/status`,
-        { isArticleActive: true },
-        { withCredentials: true }
-      );
+      const res = await api.patch(`/author-api/articles/${id}/status`, { isArticleActive: true });
       if (res.status === 200) {
         toast.success("Article restored");
         setArticles(articles.filter(a => a._id !== id));
