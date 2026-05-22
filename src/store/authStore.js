@@ -15,7 +15,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null });
 
       let res = await axios.post(
-        "http://localhost:4000/common-api/login",
+        "https://blogapp-back-y39f.onrender.com/common-api/login",
         userCredObj,
         { withCredentials: true }
       );
@@ -55,7 +55,7 @@ export const useAuth = create((set) => ({
   logout: async () => {
 
     await axios.get(
-      "http://localhost:4000/common-api/logout",
+      "https://blogapp-back-y39f.onrender.com/common-api/logout",
       { withCredentials: true }
     );
 
@@ -73,7 +73,7 @@ export const useAuth = create((set) => ({
   checkAuth: async () => {
     try {
       set({ loading: true });
-      const res = await axios.get("http://localhost:4000/common-api/check-auth", { withCredentials: true });
+      const res = await axios.get("https://blogapp-back-y39f.onrender.com/common-api/check-auth", { withCredentials: true });
 
       set({
         currentUser: res.data.payload,

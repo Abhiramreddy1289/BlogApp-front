@@ -26,11 +26,11 @@ function Register() {
 
   const onSubmit = async (newUser) => {
     try {
-      let endpoint = "http://localhost:4000/user-api/users";
+      let endpoint = "https://blogapp-back-y39f.onrender.com/user-api/users";
       if (newUser.role === "AUTHOR") {
-        endpoint = "http://localhost:4000/author-api/users";
+        endpoint = "https://blogapp-back-y39f.onrender.com/author-api/users";
       } else if (newUser.role === "ADMIN") {
-        endpoint = "http://localhost:4000/admin-api/register";
+        endpoint = "https://blogapp-back-y39f.onrender.com/admin-api/register";
       }
 
       // Create form data object

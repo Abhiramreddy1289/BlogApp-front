@@ -13,7 +13,7 @@ function Home() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/common-api/articles");
+        const res = await axios.get("https://blogapp-back-y39f.onrender.com/common-api/articles");
         setArticles(res.data.payload);
         setFilteredArticles(res.data.payload);
       } catch (err) {

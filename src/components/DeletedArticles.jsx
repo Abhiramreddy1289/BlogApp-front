@@ -11,7 +11,7 @@ function DeletedArticles() {
     const fetchDeleted = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/author-api/articles/${currentUser._id}`,
+          `https://blogapp-back-y39f.onrender.com/author-api/articles/${currentUser._id}`,
           { withCredentials: true }
         );
         // Filter for only inactive ones
@@ -26,7 +26,7 @@ function DeletedArticles() {
   const handleRestore = async (id) => {
     try {
       const res = await axios.patch(
-        `http://localhost:4000/author-api/articles/${id}/status`,
+        `https://blogapp-back-y39f.onrender.com/author-api/articles/${id}/status`,
         { isArticleActive: true },
         { withCredentials: true }
       );

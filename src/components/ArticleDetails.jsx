@@ -14,7 +14,7 @@ function ArticleDetails() {
   const fetchArticle = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/common-api/articles/${articleId}`
+        `https://blogapp-back-y39f.onrender.com/common-api/articles/${articleId}`
       );
       setArticle(res.data.payload);
     } catch (err) {
@@ -29,7 +29,7 @@ function ArticleDetails() {
   const onCommentSubmit = async (data) => {
     try {
       const res = await axios.put(
-        "http://localhost:4000/user-api/articles/",
+        "https://blogapp-back-y39f.onrender.com/user-api/articles/",
         {
           articleId: article._id,
           user: currentUser._id,

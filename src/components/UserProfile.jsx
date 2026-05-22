@@ -32,7 +32,7 @@ function UserProfile(){
    try{
 
     const res = await axios.get(
-     `http://localhost:4000/user-api/articles/${currentUser._id}`,
+     `https://blogapp-back-y39f.onrender.com/user-api/articles/${currentUser._id}`,
      {withCredentials:true}
     )
 

@@ -13,7 +13,7 @@ function UserDashboard() {
     const fetchArticles = async () => {
       try {
         const res = await axios.get(
-            `http://localhost:4000/user-api/articles/${currentUser._id}`, // passing ID even if ignored by updated backend
+            `https://blogapp-back-y39f.onrender.com/user-api/articles/${currentUser._id}`, // passing ID even if ignored by updated backend
             { withCredentials: true }
         );
         if (res.status === 200) {

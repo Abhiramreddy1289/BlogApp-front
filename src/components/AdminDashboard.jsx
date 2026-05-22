@@ -13,8 +13,8 @@ function AdminDashboard() {
     const fetchData = async () => {
       try {
         const [artRes, userRes] = await Promise.all([
-          axios.get("http://localhost:4000/admin-api/articles", { withCredentials: true }),
-          axios.get("http://localhost:4000/admin-api/users", { withCredentials: true })
+          axios.get("https://blogapp-back-y39f.onrender.com/admin-api/articles", { withCredentials: true }),
+          axios.get("https://blogapp-back-y39f.onrender.com/admin-api/users", { withCredentials: true })
         ]);
         setArticles(artRes.data.payload);
         setUsers(userRes.data.payload);
@@ -29,7 +29,7 @@ function AdminDashboard() {
     try {
       const endpoint = currentStatus ? "block" : "unblock";
       const res = await axios.patch(
-        `http://localhost:4000/admin-api/${endpoint}/${userId}`,
+        `https://blogapp-back-y39f.onrender.com/admin-api/${endpoint}/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -46,7 +46,7 @@ function AdminDashboard() {
   const toggleArticleStatus = async (articleId, currentStatus) => {
     try {
       const res = await axios.patch(
-        `http://localhost:4000/author-api/articles/${articleId}/status`,
+        `https://blogapp-back-y39f.onrender.com/author-api/articles/${articleId}/status`,
         { isArticleActive: !currentStatus },
         { withCredentials: true }
       );

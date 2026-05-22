@@ -44,7 +44,7 @@ function AddArticle() {
         }
 
         const res = await axios.put(
-          "http://localhost:4000/author-api/articles",
+          "https://blogapp-back-y39f.onrender.com/author-api/articles",
           updatePayload,
           { withCredentials: true }
         );
@@ -57,7 +57,7 @@ function AddArticle() {
       } else {
         // CREATE
         const res = await axios.post(
-          "http://localhost:4000/author-api/articles",
+          "https://blogapp-back-y39f.onrender.com/author-api/articles",
           payload,
           { withCredentials: true }
         );
